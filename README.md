@@ -1,9 +1,10 @@
 # Digital Signage Player (Desktop)
 
-학교 디스플레이(모니터)에 콘텐츠를 재생하는 **Windows용 디지털 사이니지 플레이어**입니다.
+디스플레이(모니터)에 콘텐츠를 재생하는 **Windows용 디지털 사이니지 플레이어**입니다.
+학교, 매장, 엘리베이터, 버스·지하철역, 옥외 LED 전광판 등 상시 운영되는 디스플레이 환경을 위해 만들어졌습니다.
 Delphi(VCL)로 개발되었으며, 브라우저를 키오스크 모드로 띄워 웹서버의 콘텐츠(jpg, mp4)를 전체화면으로 재생하고, 서버와 통신하며 예약 재생·원격 제어·예약 종료를 수행합니다.
 
-> Windows desktop signage player for school displays — launches a browser in kiosk mode, keeps it on top, and handles scheduled content & power-off via server polling. Built with Delphi (VCL).
+> Windows desktop digital signage player — launches a browser in kiosk mode, keeps it on top, and handles scheduled content & power-off via server polling. Built with Delphi (VCL).
 
 ## 동작 개요
 
@@ -32,7 +33,7 @@ sequenceDiagram
 ## 주요 기능
 
 - **브라우저 키오스크 실행** — Edge/Chrome을 전체화면 키오스크 모드로 실행합니다. 실행할 브라우저 경로와 파라미터(`--kiosk`, `--autoplay-policy=no-user-gesture-required` 등)는 서버 응답으로 내려받아 원격에서 변경할 수 있습니다.
-- **최상위(TopMost) 유지** — 학교 PC에 설치된 타 프로그램(메신저 등)이 디스플레이 위로 올라오는 것을 막기 위해, 주기적으로 키오스크 브라우저 창을 최상위로 고정합니다.
+- **최상위(TopMost) 유지** — 현장 PC에 설치된 타 프로그램(메신저 등)이 디스플레이 위로 올라오는 것을 막기 위해, 주기적으로 키오스크 브라우저 창을 최상위로 고정합니다.
 - **워치독(자동 재실행)** — 브라우저 창이 사라지면(강제 종료 등) 자동으로 다시 실행합니다.
 - **서버 상태 폴링** — 주기적으로 서버 상태를 확인하여 원격 명령(종료/재부팅/새로고침/중지)을 수행하고, 완료 시 서버에 보고합니다.
 - **예약 전원 종료** — 서버가 `POWEROFF`를 지시하면 20초 카운트다운 화면을 표시한 뒤 Windows를 종료합니다. 카운트다운 중 현장에서 취소할 수 있습니다.
@@ -126,5 +127,4 @@ RAD Studio에서 `display.dproj`를 열고 `Win64` 플랫폼으로 빌드합니�
 
 ## 제작
 
-- **Display Console** © Dongmin Kim (now100k studio)  
-- 문의: [real21c@gmail.com](mailto:real21c@gmail.com)
+**Display Console** © Dongmin Kim (now100k studio) · [real21c@gmail.com](mailto:real21c@gmail.com)
