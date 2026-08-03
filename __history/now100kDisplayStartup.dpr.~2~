@@ -1,0 +1,15 @@
+program now100kDisplayStartup;
+
+uses
+  Vcl.Forms,
+  unitMain in 'unitMain.pas' {frmMain},
+  unitCommon in 'unitCommon.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.Run;
+end.

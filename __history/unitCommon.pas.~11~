@@ -1,0 +1,165 @@
+unit unitCommon;
+
+interface
+
+uses
+  Windows, System.SysUtils, Registry, IniFiles, System.IOUtils;
+
+function GetRegistryValue(key: string): string;
+function MyExitWindows(RebootParam: Longword): Boolean;
+procedure RunOnStartupHKCU(const sCmdLine: string);
+procedure RemoveFromRunKey(key: string);
+
+procedure SetConfigValue(const FileName, Section, Ident, Value: string);
+function GetConfigValue(const FileName, Section, Ident, Default: string): string;
+
+const
+  ROAMING_APP_DIR   = 'webchon';
+  CONFIG_FILENAME   = 'console_config.ini';
+  TITLE_APPLICATION = 'SchoolDisplayConsole';
+
+implementation
+
+function GetRegistryValue(key: string): string;
+var
+  Reg : TRegistry;
+  TempString : string;
+begin
+  Reg := TRegistry.Create;
+  //Reg := TRegistry.Create(KEY_ALL_ACCESS or KEY_WOW64_64KEY);
+  try
+    Reg.RootKey := HKEY_CURRENT_USER; //Root를 선택합니다.
+    if Reg.OpenKey('\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce', True) then //True 일 때, Key가 없을 경우 생성합니다.
+    begin
+      TempString := Reg.ReadString(key);
+      Reg.CloseKey;
+    end;
+  finally
+    Reg.Free;
+  end;
+  GetRegistryValue := TempString;
+end;
+
+
+procedure RunOnStartupHKCU(const sCmdLine: string);
+var
+sKey              : string;
+Section           : string;
+ApplicationTitle  : string;
+begin
+  sKey := 'Once';
+  Section := 'Software\Microsoft\Windows\CurrentVersion\Run' + sKey + #0;
+
+  with TRegIniFile.Create('') do
+    try
+      RootKey := HKEY_CURRENT_USER;
+      WriteString(Section, TITLE_APPLICATION, sCmdLine) ;
+    finally
+      Free;
+    end;
+end;
+
+procedure RemoveFromRunKey(key: string);
+var
+  sKey: string;
+  Reg: TRegistry;
+  Section: string;
+begin
+  sKey := 'Once';
+  Section := 'Software\Microsoft\Windows\CurrentVersion\Run' + sKey + #0;
+
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey(Section, False) then
+    begin
+      if Reg.ValueExists(key) then
+        Reg.DeleteValue(key);
+      Reg.CloseKey;
+    end;
+  finally
+    Reg.Free;
+  end;
+end;
+
+function MyExitWindows(RebootParam: Longword): Boolean;
+var
+  TTokenHd: THandle;
+  TTokenPvg: TTokenPrivileges;
+  cbtpPrevious: DWORD;
+  rTTokenPvg: TTokenPrivileges;
+  pcbtpPreviousRequired: DWORD;
+  tpResult: Boolean;
+const
+  SE_SHUTDOWN_NAME = 'SeShutdownPrivilege';
+begin
+  if Win32Platform = VER_PLATFORM_WIN32_NT then
+  begin
+    tpResult := OpenProcessToken(GetCurrentProcess(),
+      TOKEN_ADJUST_PRIVILEGES or TOKEN_QUERY,
+      TTokenHd);
+    if tpResult then
+    begin
+      tpResult := LookupPrivilegeValue(nil,
+                                       SE_SHUTDOWN_NAME,
+                                       TTokenPvg.Privileges[0].Luid);
+      TTokenPvg.PrivilegeCount := 1;
+      TTokenPvg.Privileges[0].Attributes := SE_PRIVILEGE_ENABLED;
+      cbtpPrevious := SizeOf(rTTokenPvg);
+      pcbtpPreviousRequired := 0;
+      if tpResult then
+        Windows.AdjustTokenPrivileges(TTokenHd,
+                                      False,
+                                      TTokenPvg,
+                                      cbtpPrevious,
+                                      rTTokenPvg,
+                                      pcbtpPreviousRequired);
+    end;
+  end;
+  Result := ExitWindowsEx(RebootParam, 0);
+end;
+
+function GetConfigValue(const FileName, Section, Ident, Default: string): string;
+var
+  Ini: TIniFile;
+  IniPath: string;
+  Folder: string;
+begin
+  // AppData\Roaming\YourApp 경로
+  Folder := TPath.Combine(TPath.GetHomePath, 'AppData\Roaming\YourApp');
+
+  if not DirectoryExists(Folder) then
+    ForceDirectories(Folder);
+
+  IniPath := TPath.Combine(Folder, FileName);
+
+  Ini := TIniFile.Create(IniPath);
+  try
+    Result := Ini.ReadString(Section, Ident, Default);
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure SetConfigValue(const FileName, Section, Ident, Value: string);
+var
+  Ini: TIniFile;
+  IniPath: string;
+  Folder: string;
+begin
+  // AppData\Roaming\YourApp 경로
+  Folder := TPath.Combine(TPath.GetHomePath, 'AppData\Roaming\YourApp');
+  if not DirectoryExists(Folder) then
+    ForceDirectories(Folder);
+
+  IniPath := TPath.Combine(Folder, FileName);
+
+  Ini := TIniFile.Create(IniPath);
+  try
+    Ini.WriteString(Section, Ident, Value);
+  finally
+    Ini.Free;
+  end;
+end;
+
+end.

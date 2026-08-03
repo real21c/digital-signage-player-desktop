@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.973,D:\dev\now100k_display_2025\Unit1.dfm=D:\dev\now100k_display_2025\unitTemp.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.973,D:\dev\now100k_display_2025\Unit1.pas=D:\dev\now100k_display_2025\unitTemp.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.357,D:\dev\now100k_display_2025\Unit1.pas=D:\dev\now100k_display_2025\unitCommon.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.121,=D:\dev\now100k_display_2025\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.425,=D:\dev\now100k_display_2025\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.708,D:\my\documents\Embarcadero\Studio\Projects\Project1.dproj=D:\dev\now100k_display_2025\now100kDisplayStartup.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.774,D:\my\documents\Embarcadero\Studio\Projects\Unit1.pas=D:\dev\now100k_display_2025\unitMain.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.823,=D:\my\documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.632,=D:\my\documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.774,D:\my\documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\dev\now100k_display_2025\unitMain.dfm</Transaction>
+  </Transactions>
+</BorlandProject>
