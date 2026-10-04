@@ -98,6 +98,10 @@ RESERVE1=...         ; 서버에서 내려받은 예약 종료 시각
 RESERVE2=...
 ```
 
+## 다운로드
+
+[Releases](https://github.com/real21c/digital-signage-player-desktop/releases/latest)에서 `DisplayConsole-<버전>-win64-portable.exe`를 받아 바로 실행합니다. 설치가 필요 없습니다.
+
 ## 사용 방법
 
 1. 프로그램을 실행하면 **SETTINGS** 화면이 열립니다.
